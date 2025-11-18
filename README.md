@@ -7,9 +7,7 @@ This repository contains the implementation for the sequence alignment project a
 
 Python 3.8+
 
-Optional but recommended: psutil
-
-Install psutil:
+Install psutil (optional):
 ```
 pip install psutil
 ```
