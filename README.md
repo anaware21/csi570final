@@ -9,4 +9,6 @@ Python 3.8+
 Optional but recommended: psutil
 
 Install psutil:
-`pip install psutil`
+```
+pip install psutil
+```
