@@ -4,7 +4,7 @@ import sys
 import time
 
 
-# psutil for memory
+# check if psutil installed for memory measurement
 try:
     import psutil
     _HAS_PSUTIL = True
