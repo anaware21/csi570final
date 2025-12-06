@@ -84,7 +84,7 @@ def basic_dp(x, y):
     aligned_x = ''.join(aligned_x)
     aligned_y = ''.join(aligned_y)
     
-    return int(dp[m][n], aligned_x, aligned_y)
+    return (int(dp[m][n]), aligned_x, aligned_y)
 
 
 # computes only last row of table of dp table
@@ -128,6 +128,8 @@ def hirschberg(x, y):
     m, n = len(x), len(y)
 
     # BASE CASES
+    # BASE CASES
+    #return int(dp[m][n], aligned_x, aligned_y)
     # for sequence length 0 and 1
 
     # RECURSION
@@ -137,7 +139,59 @@ def hirschberg(x, y):
     # should return cost, aligned_x, aligned_y
 
     # temporary: for now this function just calls basic_dp helper function
-    return basic_dp(x, y)
+    
+    # return basic_dp(x, y)
+    
+    if m == 0:
+        # align empty x with y: all gaps in x
+        aligned_x = "_" * n
+        aligned_y = y
+        return (n * delta, aligned_x, aligned_y)
+    
+    if n == 0:
+        # align x with empty y: all gaps in y
+        aligned_x = x
+        aligned_y = "_" * m
+        return (m * delta, aligned_x, aligned_y)
+    
+    if m == 1 or n == 1:
+        # use basic DP for small cases
+        return basic_dp(x, y)
+
+    # RECURSION: split x in half
+    mid = m // 2
+    
+    # Compute forward DP for first half of x
+    x_first = x[:mid]
+    forward = dp_last_row(x_first, y)
+    
+    # Compute backward DP for second half of x
+    x_second = x[mid:]
+    backward = dp_last_row_reverse(x_second, y)
+    
+    # Find optimal split point in y
+    # We want to minimize forward[j] + backward[j] for j in [0, n]
+    min_cost = float('inf')
+    best_j = 0
+    for j in range(n + 1):
+        cost = forward[j] + backward[j]
+        if cost < min_cost:
+            min_cost = cost
+            best_j = j
+    
+    # Recursively solve two subproblems
+    y_left = y[:best_j]
+    y_right = y[best_j:]
+    
+    cost_left, aligned_x_left, aligned_y_left = hirschberg(x_first, y_left)
+    cost_right, aligned_x_right, aligned_y_right = hirschberg(x_second, y_right)
+    
+    # Combine results
+    aligned_x = aligned_x_left + aligned_x_right
+    aligned_y = aligned_y_left + aligned_y_right
+    total_cost = cost_left + cost_right
+    
+    return (total_cost, aligned_x, aligned_y)
 
 
 

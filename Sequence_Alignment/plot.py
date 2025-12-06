@@ -31,7 +31,7 @@ for fname in sorted(os.listdir(DATA_DIR)):
     # run basic
     subprocess.run(basic_prog + [input_path, out_basic], check=True)
     # run efficient
-    # subprocess.run(eff_prog + [input_path, out_eff], check=True)
+    subprocess.run(eff_prog + [input_path, out_eff], check=True)
 
     # read last two lines: time, mem
     def read_time_mem(path):
@@ -42,10 +42,9 @@ for fname in sorted(os.listdir(DATA_DIR)):
         return time_ms, mem_kb
 
     t_b, m_b = read_time_mem(out_basic)
-    # t_e, m_e = read_time_mem(out_eff)
+    t_e, m_e = read_time_mem(out_eff)
 
-    # rows.append((size, t_b, m_b, t_e, m_e))
-    rows.append((size, t_b, m_b))
+    rows.append((size, t_b, m_b, t_e, m_e))
 
 rows.sort(key=lambda x: x[0])
 
@@ -69,14 +68,14 @@ with open(f"{CSV_FILE}/datapoints_stats.csv") as f:
     for row in reader:
         sizes.append(int(row["size"]))
         time_basic.append(float(row["time_basic"]))
-        # time_eff.append(float(row["time_efficient"]))
+        time_eff.append(float(row["time_efficient"]))
         mem_basic.append(float(row["mem_basic"]))
-        # mem_eff.append(float(row["mem_efficient"]))
+        mem_eff.append(float(row["mem_efficient"]))
 
 # 1. CPU time vs problem size
 plt.figure()
 plt.plot(sizes, time_basic, marker="o", label="Basic")
-# plt.plot(sizes, time_eff, marker="o", label="Efficient")
+plt.plot(sizes, time_eff, marker="o", label="Efficient")
 plt.xlabel("Problem size (m + n)")
 plt.ylabel("CPU time (ms)")
 plt.title("CPU time vs Problem size")
@@ -87,7 +86,7 @@ plt.savefig(f"{CSV_FILE}/time_vs_size.png", dpi=200)
 # 2. Memory vs problem size
 plt.figure()
 plt.plot(sizes, mem_basic, marker="o", label="Basic")
-# plt.plot(sizes, mem_eff, marker="o", label="Efficient")
+plt.plot(sizes, mem_eff, marker="o", label="Efficient")
 plt.xlabel("Problem size (m + n)")
 plt.ylabel("Memory usage (KB)")
 plt.title("Memory usage vs Problem size")

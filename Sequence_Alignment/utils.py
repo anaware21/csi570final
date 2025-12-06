@@ -1,4 +1,4 @@
-def read_input_file(file_path) -> tuple | None:
+def read_input_file(file_path):
     """
     Reads sequences from a text file and returns them as a tuple of strings.
 
@@ -57,7 +57,7 @@ def read_input_file(file_path) -> tuple | None:
     except Exception as e:
         raise Exception(f"An error occurred while reading the file: {e}")
 
-def input_string_generator(file_path) -> tuple:
+def input_string_generator(file_path):
     """
     Reads sequences from a text file and returns them as a tuple of strings.
 
@@ -78,7 +78,7 @@ def input_string_generator(file_path) -> tuple:
 
     return s, t
 
-def alpha(c1: str, c2: str) -> int:
+def alpha(c1, c2):
     """Returns the value for matching a character."""
     alpha_matrix = [[0, 110, 48, 94],
                     [110, 0, 118, 48],
