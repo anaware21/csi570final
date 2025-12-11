@@ -1,2 +1,1 @@
-#!/usr/bin/env bash
-python basic.py "$1" "$2"
+python3 basic.py "$1" "$2"
